@@ -10,44 +10,62 @@ class Grass:
 
 class Boy:
     def __init__(self):
-        self.x, self.y = 0, 90
+        self.x, self.y = random.randint(100, 700), 90
         self.frame = 0
         self.image = load_image('run_animation.png')
     def update(self):
         self.frame = (self.frame + 1) % 8
         self.x += 5
+        delay(0.01)
     def draw(self):
         self.image.clip_draw(self.frame*100, 0, 100, 100, self.x, self.y)
 
 class Ball:
     def __init__(self):
             self.y = 599
-            self.delay = random(1,21)
-            self.image = load_image('ball21x21.png')
+            self.delay = random.randint(1,21)
+            self.a = random.randint(0,1)
+            if(self.a):
+                self.image = load_image('ball21x21.png')
+            else:
+                self.image = load_image('ball41x41.png')
+                
     def draw(self):
             self.image.draw(random.randint(100,700),self.y)
     def update(self):
-        self.image.draw(random.randint(100,700),self.y)
         self.y -= self.delay
-
-
+        delay(0.1)
+        if(self.y == 30):
+            pass
+            
 
 
 def reset_world():
     global running
     global grass
-    global boy
+    global team
+    global balls
     running = True
     grass = Grass()
-    boy = Boy()
+    team = [Boy() for i in range(10)]
+    balls = [Ball() for j in range(19)]
+
+
+
 def update_world():
     grass.update()
-    boy.update()
-    pass
+    for boy in team:
+      boy.update()
+    for ball in balls:
+        ball.update
+
 def render_world():
     clear_canvas()
     grass.draw()
-    boy.draw()
+    for boy in team:
+        boy.draw()
+    for ball in balls:
+        ball.update   
     update_canvas()
 
 def handle_events():
@@ -62,8 +80,12 @@ def handle_events():
 
 
 
+
 open_canvas()
-
-
+reset_world()
+while(running):
+    handle_events()
+    render_world()
+    update_world()
 
 close_canvas()
