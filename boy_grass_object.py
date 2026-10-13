@@ -22,21 +22,25 @@ class Boy:
 
 class Ball:
     def __init__(self):
-            self.y = 599
-            self.delay = random.randint(1,21)
-            self.a = random.randint(0,1)
-            if(self.a):
-                self.image = load_image('ball21x21.png')
-            else:
-                self.image = load_image('ball41x41.png')
-                
+        self.y = 599
+        self.x = random.randint(100,700)
+        self.delay = random.randint(1,21) 
+        self.r = random.randint(1,2) 
+        if(self.r == 1):
+            self.image = load_image('ball21x21.png')
+        else:
+            self.image = load_image('ball41x41.png')
+                           
     def draw(self):
-            self.image.draw(random.randint(100,700),self.y)
+        self.image.draw(self.x,self.y)
+        if(self.y == 60):
+            self.image = 0
     def update(self):
         self.y -= self.delay
         delay(0.1)
-        if(self.y == 30):
-            pass
+        if(self.y == 60):
+            self.image = 0
+        
             
 
 
@@ -48,7 +52,7 @@ def reset_world():
     running = True
     grass = Grass()
     team = [Boy() for i in range(10)]
-    balls = [Ball() for j in range(19)]
+    balls = [Ball() for i in range(19)]
 
 
 
@@ -57,7 +61,7 @@ def update_world():
     for boy in team:
       boy.update()
     for ball in balls:
-        ball.update
+        ball.update()
 
 def render_world():
     clear_canvas()
@@ -65,7 +69,7 @@ def render_world():
     for boy in team:
         boy.draw()
     for ball in balls:
-        ball.update   
+        ball.draw()   
     update_canvas()
 
 def handle_events():
